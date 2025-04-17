@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Billboard AR Songs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/mind-ar@1.1.7/dist/mindar-image.prod.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <script>
+      AFRAME.registerComponent("cursor-listener", {
+        init: function () {
+          this.el.addEventListener("click", () => {
+            this.el.emit("click");
+          });
+        },
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="container">
+      <mindar-image
+        image-target-src="targets.mind"
+        auto-start="true"
+        ui-loading="yes"
+        ui-scanning="yes"
+        ui-error="yes"
+      >
+        <a-scene
+          mindar-image
+          embedded
+          color-space="sRGB"
+          vr-mode-ui="false"
+          device-orientation-permission-ui="auto"
+        >
+          <a-assets></a-assets>
+
+          <a-entity mindar-image-target="targetIndex: 0">
+            <a-plane id="song-plane" width="1.5" height="2" position="0 0 0">
+              <a-entity id="song-list" position="0 0 0"></a-entity>
+            </a-plane>
+          </a-entity>
+
+          <a-camera position="0 0 0" look-controls="enabled">
+            <a-cursor
+              fuse="false"
+              raycaster="objects: .clickable"
+              material="color: white; shader: flat"
+            ></a-cursor>
+          </a-camera>
+        </a-scene>
+      </mindar-image>
+    </div>
+  </body>
+</html>
